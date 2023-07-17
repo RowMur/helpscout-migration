@@ -1,0 +1,6 @@
+*.csv
+*.json
+__pycache__
+agents
+customers
+tickets
