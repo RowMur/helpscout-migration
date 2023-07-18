@@ -67,7 +67,7 @@ def format_agents():
         print(f"Completed page {page}")
         page += 1
 
-def format_tickets():
+def format_tickets(isUpdated):
     page = 1
     
     tickets_file = open("helpscout_tickets.csv", "w", newline="", encoding="utf-8")
@@ -83,7 +83,10 @@ def format_tickets():
     conversations2_writer.writerow(["notes id", "ticket id", "body", "is private note", "user id(Contact/Agent)", "created_at", "updated_at"])
     
     while True:
-        filename = f"tickets/page{page}.json"
+        if isUpdated:
+            filename = f"updatedTickets/page{page}.json"
+        else:
+            filename = f"tickets/page{page}.json"
 
         if not os.path.isfile(filename):
             break
@@ -159,12 +162,15 @@ def format_tickets():
     tickets_file.close()
     conversations1_file.close()
 
-def get_attachments():
+def get_attachments(isUpdated):
     client = helpscout_client()
     page = 1
     attachment_count = 0
     while True:
-        json_filename = f"tickets/page{page}.json"
+        if not isUpdated:
+            json_filename = f"tickets/page{page}.json"
+        else:
+            json_filename = f"updatedTickets/page{page}.json"
 
         if not os.path.isfile(json_filename):
             break
@@ -214,9 +220,10 @@ if __name__ == "__main__":
     # client.export_customers()
     # client.export_agents()
     # client.export_tickets()
+    # client.export_updated_tickets("2023-07-15T12:00:00Z")
 
     # format_customers()
     # format_agents()
-    # format_tickets()
+    format_tickets(True)
 
-    get_attachments()
+    get_attachments(True)

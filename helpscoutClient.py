@@ -100,6 +100,25 @@ class helpscout_client:
                 json.dump(response.get("_embedded").get("conversations"), file)
 
         return
+    
+    def export_updated_tickets(self, date):
+        page_info = {
+            "totalPages": 1,
+            "number": 0,
+        }
+
+        while page_info["number"] < page_info["totalPages"]:
+            response = self.query("conversations", f"?page={str(page_info['number'] + 1)}&status=all&embed=threads&modifiedSince={date}")
+            page_info = response.get("page")
+            print(page_info)
+
+            filename = f"updatedTickets/page{page_info['number']}.json"
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+            with open(filename, "w") as file:
+                json.dump(response.get("_embedded").get("conversations"), file)
+        
+        return
 
 if __name__ == "__main__":
     hsClient = helpscout_client()
