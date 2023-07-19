@@ -99,7 +99,7 @@ def format_tickets(isUpdated):
                 # Ignore jobs inbox
                 if ticket.get("mailboxId") == 99173:
                     continue
-                row = [ticket.get("id"), ticket.get("status"), "low", ticket.get("createdAt"), ticket.get("userUpdatedAt"), ticket.get("subject"), "<div>" + ticket.get("preview") + "</div>", ticket.get("type"), ticket.get("source").get("type")]
+                row = [ticket.get("id"), ticket.get("status"), "low", ticket.get("createdAt"), ticket.get("userUpdatedAt"), f"\"{ticket.get('subject')}\"", "<div>" + ticket.get("preview") + "</div>", ticket.get("type"), ticket.get("source").get("type")]
                 if ticket.get("createdBy").get("email") != "":
                     row.append(ticket.get("createdBy").get("id"))
                     row.append(ticket.get("createdBy").get("email"))
@@ -224,6 +224,6 @@ if __name__ == "__main__":
 
     # format_customers()
     # format_agents()
-    format_tickets(True)
+    format_tickets(False)
 
-    get_attachments(True)
+    # get_attachments(True)
